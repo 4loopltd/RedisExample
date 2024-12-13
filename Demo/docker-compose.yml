@@ -2,26 +2,31 @@ version: '3.8'
 
 services:
   app:
-    #image: demo-app:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
-      SPRING_REDIS_HOST: redis # Hostname Redis service
-      SPRING_REDIS_PORT: 6379 # port
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
     depends_on:
-      - redis # Ensures Redis starts before the app
+      redis:
+        condition: service_healthy
     networks:
       - app-network
 
   redis:
     image: redis:latest
     ports:
-      - "6379:6379" # all defaults
+      - "6379:6379"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "redis-server", "--version"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   app-network:

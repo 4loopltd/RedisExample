@@ -1,19 +1,40 @@
 package uk.co.a4loop.demo.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import uk.co.a4loop.demo.service.RedisService;
 
 @RestController
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-@Slf4j
 public class DemoController {
 
+    @Autowired
+    RedisService redisService;
+
+    @SuppressWarnings("SameReturnValue")
     @GetMapping("/ping")
     public String ping() {
-        log.info("ping");
         return "pong";
+    }
+
+    @PostMapping("/data")
+    public String create(@RequestBody String value) {
+        return redisService.create(value);
+    }
+
+    @GetMapping("/data/{key}")
+    public String read(@PathVariable String key) {
+        return redisService.read(key);
+    }
+
+    @PutMapping("/data/{key}")
+    public boolean update(@PathVariable String key, @RequestBody String value) {
+        return redisService.update(key, value);
+    }
+
+    @DeleteMapping("/data/{key}")
+    public boolean delete(@PathVariable String key) {
+        return redisService.delete(key);
     }
 }

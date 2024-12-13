@@ -19,3 +19,10 @@ docker build -t demo-app:latest .
 ###
 Default spring port 8080  
 ``http://localhost:80880/ping``
+
+### swagger
+http://localhost:8080/swagger-ui/index.html
+
+### test file
+Test.http
+

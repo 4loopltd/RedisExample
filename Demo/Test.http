@@ -1,0 +1,25 @@
+## Key returned from POST create method
+@key = 1d5c5e70-15cf-4398-af74-8eda55ee1ee5
+
+Content-Type: application/json
+
+### CREATE
+POST http://localhost:8080/data
+Content-Type: application/json
+
+"Data created"
+
+
+### READ
+GET http://localhost:8080/data/{{key}}
+
+
+###
+PUT http://localhost:8080/data/{{key}}
+Content-Type: application/json
+
+"Data updated"
+
+
+###
+DELETE http://localhost:8080/data/{{key}}
